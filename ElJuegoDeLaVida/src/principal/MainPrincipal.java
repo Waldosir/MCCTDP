@@ -20,6 +20,7 @@ public class MainPrincipal {
 					System.out.print(TextoPregunta); //Hace la peticion del dato
 					try{
 						numero = Integer.parseInt(sc.nextLine());
+						sc.close();
 						if(numero>=minimo && numero<=maximo) { //Verifica que este en el rango
 							break;
 						}else {// Si no esta en el rango
@@ -47,6 +48,7 @@ public class MainPrincipal {
 	        {
 	        	Scanner sc = new Scanner(System.in);
 	        	sc.nextLine();
+				sc.close();
 	            
 	        }  
 	        catch(Exception e)
