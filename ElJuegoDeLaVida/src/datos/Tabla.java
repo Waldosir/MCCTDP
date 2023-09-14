@@ -133,8 +133,8 @@ public class Tabla {
 		}
 		
 		//Verifica si hay un organismo vivo por toda la tabla
-		for(int i =0;i<this.datos.length;i++) {
-			for(int j=0;j<this.datos[2].length;j++) {
+		for(int i =0;i<this.fila;i++) {
+			for(int j=0;j<this.columna;j++) {
 				if(this.datos[i][j]) {//Encuentra un solo ser vivo
 					return false;//No se detiene el programa
 				}
