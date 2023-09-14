@@ -11,16 +11,18 @@ public class MainPrincipal {
 	static int MinimoColumnasTablero = 2, MaximoColumnasTablero = 20; //Rango columna tablero
 	static int MinimoGeneraciones = 1, MaximoGeneraciones = 50; //Rango generaciones
 
-	
+	static Scanner sc = new Scanner(System.in);
 	//Ingreso de datos del usuario en su respectivo rango con su pregunta
 	static int IngresoEnteroRango(String TextoPregunta, int minimo, int maximo) {
-				Scanner sc = new Scanner(System.in);
+				
 				int numero = 0;
 				while(true) {
+					
 					System.out.print(TextoPregunta); //Hace la peticion del dato
+					String ValorUsuario = sc.nextLine();
 					try{
-						numero = Integer.parseInt(sc.nextLine());
-						sc.close();
+						numero = Integer.parseInt(ValorUsuario);
+						
 						if(numero>=minimo && numero<=maximo) { //Verifica que este en el rango
 							break;
 						}else {// Si no esta en el rango
@@ -35,6 +37,7 @@ public class MainPrincipal {
 					
 					
 				}
+				
 				return numero; //Regresa el numero y sale del ciclo
 				
 		}
