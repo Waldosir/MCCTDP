@@ -66,10 +66,10 @@ public class Tabla {
 	}
 	
 	public boolean[][] TablaNueva() {//Algoritmo para verificar organismos vivos o muertas
-		boolean[][] Newdatos  = new boolean[datos.length][datos[2].length];//Colocar tabla de datos
+		boolean[][] Newdatos  = new boolean[this.fila][this.columna];//Colocar tabla de datos
 		
-		for(int i =0;i<this.datos.length;i++) {//For Fila
-			for(int j=0;j<this.datos[2].length;j++) {//For Columna
+		for(int i =0;i<this.fila;i++) {//For Fila
+			for(int j=0;j<this.columna;j++) {//For Columna
 				Newdatos[i][j] = VerificaSiVive(i,j);//Hace el acomodo por condiciones		
 			}
 		}
@@ -86,7 +86,7 @@ public class Tabla {
 				 *2)Comparan valores del arreglo que no esten fuera del rango de la tabla
 				 *3)El valor actual no puede entrar en la comparacion, dado que no es un vecino
 				 */
-				if((i>=0 && j>=0) &&(i<this.datos.length && j<this.datos[2].length)
+				if((i>=0 && j>=0) &&(i<this.fila && j<this.columna)
 						&&!(i==PosFila && j ==PosColumna) ) {
 					if(this.datos[i][j]) {//Si encuentra un vecino vivo
 						NumVivos++;
@@ -114,8 +114,8 @@ public class Tabla {
 	private boolean TablasIguales(boolean datosT2[][]) {
 		boolean SonIguales = true;//Condicion de que si es la misma tabla
 		
-		for(int i = 0; i<datos.length;i++) {
-			for(int j = 0; j<datos[2].length;j++) {
+		for(int i = 0; i<this.fila;i++) {
+			for(int j = 0; j<this.columna;j++) {
 				if(this.datos[i][j]!=datosT2[i][j]) {//Si el valor llegara a ser distinto
 					SonIguales = false;//Es falso
 				}
