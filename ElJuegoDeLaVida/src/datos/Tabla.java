@@ -27,12 +27,9 @@ public class Tabla {
 	}
 	
 	//Tabla generada con los datos de la tabla
-	public String toString(){
-		int filas = this.fila;
-		int columnas = this.columna;
-		
+	public String toString(){		
 		String FormaTabla = "   ";//Espacio entre los 0 del inicio de la tabla
-		for(int i=0;i<columnas;i++) {//Hacer la primera fila
+		for(int i=0;i<this.columna;i++) {//Hacer indicadores de columnas
 			if(i<10) {
 				FormaTabla +=i+"  ";//Caso unidades
 			}else {
@@ -42,14 +39,14 @@ public class Tabla {
 		}
 		FormaTabla +="\n";//Salto de linea
 		
-		for(int i=0;i<filas;i++) { //For de filas
+		for(int i=0;i<this.fila;i++) { //For de filas
 			if(i<10) {//La columna inicial
 				FormaTabla  += i+"  ";//Unidades
 			}else {
 				FormaTabla +=i+" ";//Decenas
 			}
 			
-			for(int j=0;j<columnas;j++)//For de columnas
+			for(int j=0;j<this.columna;j++)//For de columnas
 			{
 				if(this.datos[i][j]) { //Caso donde organismos esten vivos
 					FormaTabla +="X  ";
@@ -78,7 +75,7 @@ public class Tabla {
 	
 	private boolean VerificaSiVive(int PosFila, int PosColumna) {
 		int NumVivos = 0;
-		boolean dato = datos[PosFila][PosColumna];
+		boolean dato = this.datos[PosFila][PosColumna];
 		for(int i = PosFila-1;i<=PosFila+1;i++) {
 			for(int j = PosColumna-1;j<=PosColumna+1;j++) {
 				/*Condiciones del if. Se deben de cumplir todas las condiciones:
@@ -112,17 +109,29 @@ public class Tabla {
 	
 	//Verifica si las tablas son iguales
 	private boolean TablasIguales(boolean datosT2[][]) {
-		boolean SonIguales = true;//Condicion de que si es la misma tabla
 		
 		for(int i = 0; i<this.fila;i++) {
 			for(int j = 0; j<this.columna;j++) {
 				if(this.datos[i][j]!=datosT2[i][j]) {//Si el valor llegara a ser distinto
-					SonIguales = false;//Es falso
+					return false;//Es falso
 				}
 			}
 		}
 		
-		return SonIguales;
+		return true;
+	}
+	
+	//Verifica si hay un organismo vivo por toda la tabla
+	private boolean HayOrganismoVivo() {
+		for(int i =0;i<this.fila;i++) {
+			for(int j=0;j<this.columna;j++) {
+				if(this.datos[i][j]) {//Encuentra un solo ser vivo
+					return true;//Es verdadero
+						}
+					}
+				}
+		return false;//No encuentra a nadie vivo
+		
 	}
 	
 	//Detiene el programa bajo las condiciones adecuadas
@@ -131,17 +140,13 @@ public class Tabla {
 			System.out.print("La generacion anterior es igual a la actual.");
 			return true;
 		}
-		
-		//Verifica si hay un organismo vivo por toda la tabla
-		for(int i =0;i<this.fila;i++) {
-			for(int j=0;j<this.columna;j++) {
-				if(this.datos[i][j]) {//Encuentra un solo ser vivo
-					return false;//No se detiene el programa
-				}
-			}
+		if(HayOrganismoVivo()) {
+			return false;
+		} else {//No encontro un ser vivo
+			System.out.print("Ya no hay seres vivos en la generacion actual.");
+			return true;
 		}
-		//Sale del ciclo, y no encontro un ser vivo
-		System.out.print("Ya no hay seres vivos en la generacion actual.");
-		return true;
+		
+		
 	}
 }
