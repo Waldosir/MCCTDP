@@ -1,4 +1,22 @@
+/*
+ * GONZALEZ ROBLES ALDAIR - M17171128
+ * Tecnologías de la programación
+ * Semana 11-18 de Septiembre del 2023
+ * Primer proyecto - Individual
+ * 
+ * Programa "El juego de la vida"
+ * en el cual es un autómata celular
+ * donde evolucionan celulas mediante
+ * reglas muy simples como que celulas
+ * vivas siguen vivas si tiene vecinos
+ * cercanos igual a 2 o 3, y que nace
+ * un nuevo ser vivo de un espacio muerto
+ * si exactamente son 3 vecinos los que tiene
+*/
+
+
 package principal;
+
 
 import java.util.Scanner;
 

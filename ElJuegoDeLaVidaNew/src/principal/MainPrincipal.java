@@ -80,35 +80,10 @@ public class MainPrincipal {
 		
 	}
 	
-	static void GeneracionTabla(Tabla TVieja, Tabla TNueva, int NumGeneraciones) {
-		for(int i=0; i<NumGeneraciones;i++) {
-			System.out.println("Generacion "+(i+1));
-			System.out.println(TNueva.toString()); //Tabla con los datos
-			
-			//Si la tabla vieja tiene datos, y si la condicion de detener la tabla se hace
-				if(TVieja.getDatos()!=null && TNueva.DetenerPrograma(TVieja.getDatos())) {
-					break;//Termina el ciclo de generaciones
-				}
-			TVieja.setDatos(TNueva.getDatos()); //Coloca los datos de la tabla actual para ser datos antiguos
-			TNueva.setDatos(TVieja.TablaNueva());//Actualiza los datos de la tabla actual con los datos antiguos
-			Pausar();      
-		}
-		
-	}
 	
-	static void Pausar() {
-		 System.out.println("Presiones cualquier tecla para continuar...");
-	        try (Scanner sc = new Scanner(System.in))
-	        {
-	        	sc.nextLine();
-	            
-	        }  
-	        catch(Exception e)
-	        {}  
-	}
 	
 	public static void main(String[] args) {
-		
+		/*
 		//Ingreso de fila, columna y generaciones por parte del usuario
 		int numFilas = IngresoEnteroRango("Ingrese numero de filas del tablero: ",
 				MinimoFilasTablero, MaximoFilasTablero);
@@ -125,18 +100,35 @@ public class MainPrincipal {
 		//Ingreso de numero de organismos
 		int numeroOrganismos = IngresoEnteroRango("Ingrese numero de organismos iniciales: ",
 				MinimoOrganismos,MaximoOrganismos);
-		
+		*/
 		//Tabla con los datos ingresados por el usuario
-		boolean datos[][] = TablaDatos(numFilas,numColumnas,numeroOrganismos, 
+		/*boolean datos[][] = TablaDatos(numFilas,numColumnas,numeroOrganismos, 
 				MinimoArreglo, MaximoArregloF, MaximoArregloC);
+		*/
+		
+		int numFilas = 8;
+		int numColumnas = 10;
+		int numGeneraciones = 10;
+		int numeroOrganismos = 10;
+		int MinimoArreglo = 0, MaximoArregloF = numFilas -1, MaximoArregloC = numColumnas-1;
+		
+		boolean datos[][] = new boolean[numFilas][numColumnas];
+		datos[1][3] = true;
+		datos[2][3] = true;
+		datos[3][2] = true;
+		datos[3][3] = true;
+		datos[3][4] = true;
+		datos[4][3] = true;
+		datos[5][7] = true;
+		datos[5][8] = true;
+		datos[6][7] = true;
+		datos[6][8] = true;
 		
 		//Tablas: Una actual del programa, y otra para comparar
-		Tabla tVieja  = new Tabla(numFilas,numColumnas);
-		Tabla tNueva = new Tabla(numFilas, numColumnas,datos);
+		Tabla tActual = new Tabla(numFilas, numColumnas,datos);
 		
 		//Función generación de tabla.
-		GeneracionTabla(tVieja, tNueva, numGeneraciones);
-		
+		tActual.GeneracionTabla(numGeneraciones);
 		sc.close();
 		System.out.print("Fin del programa.");
 

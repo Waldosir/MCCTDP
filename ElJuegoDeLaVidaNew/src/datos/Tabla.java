@@ -1,5 +1,7 @@
 package datos;
 
+import java.util.Scanner;
+
 public class Tabla {
 	//Valor de fila, columna y datos de tabla
 	private int fila,columna;
@@ -68,15 +70,93 @@ public class Tabla {
 		
 	}
 	
-	public boolean[][] TablaNueva() {//Algoritmo para verificar organismos vivos o muertas
-		boolean[][] Newdatos  = new boolean[this.fila][this.columna];//Colocar tabla de datos
+	public String toString(boolean[][] Verificar){		
+		String FormaTabla = "   ";//Espacio entre los 0 del inicio de la tabla
+		for(int i=0;i<this.columna;i++) {//Hacer indicadores de columnas
+			if(i<10) {
+				FormaTabla +=i+"  ";//Caso unidades
+			}else {
+				FormaTabla +=i+" ";//Caso decenas
+			}
+			
+		}
+		FormaTabla +="\n";//Salto de linea
 		
+		for(int i=0;i<this.fila;i++) { //For de filas
+			if(i<10) {//La columna inicial
+				FormaTabla  += i+"  ";//Unidades
+			}else {
+				FormaTabla +=i+" ";//Decenas
+			}
+			
+			for(int j=0;j<this.columna;j++)//For de columnas
+			{
+				if(Verificar[i][j]) { //Caso donde organismos esten vivos
+					FormaTabla +="X  ";
+				}
+				else {//Caso donde organismos esten muertos
+					FormaTabla+="-  ";
+				}
+			}
+			FormaTabla+="\n";//Salto de linea
+		}
+		
+		return FormaTabla;
+		
+	}
+	
+	
+	public boolean[][] TablaSiguiente() {//Algoritmo para verificar organismos vivos o muertas
+		boolean[][] Newdatos  = new boolean[this.fila][this.columna];//Colocar tabla de datos
+		System.out.println("Antes: ");
+		System.out.println(toString());
 		for(int i =0;i<this.fila;i++) {//For Fila
 			for(int j=0;j<this.columna;j++) {//For Columna
 				Newdatos[i][j] = VerificaSiVive(i,j);//Hace el acomodo por condiciones		
 			}
 		}
+		
+		System.out.println("Despues: ");
+		System.out.println(toString(Newdatos));
 		return Newdatos;//Regresa la nueva tabla de datos
+	}
+	
+	private boolean[][] HeredaTabla(){
+		boolean[][] Newdatos  = new boolean[this.fila][this.columna];//Colocar tabla de datos
+		
+		for(int i =0;i<this.fila;i++) {//For Fila
+			for(int j=0;j<this.columna;j++) {//For Columna
+				Newdatos[i][j] = this.datos[i][j];//Hace el acomodo por condiciones		
+			}
+		}
+		return Newdatos;//Regresa la nueva tabla de datos
+	}
+	
+	public void GeneracionTabla(int NumGeneraciones) {
+		boolean[][] tablaVieja = null;
+		
+		for(int i=0;i<NumGeneraciones;i++){
+			System.out.println("Generacion "+(i+1));
+			System.out.println(this.toString());
+			if(tablaVieja!=null && this.DetenerPrograma(tablaVieja)) {
+				break;
+			}
+			tablaVieja = HeredaTabla();
+			this.datos = TablaSiguiente();
+			Pausar();
+		}
+		System.out.println("Fin de la generacion de tablas.");
+	}
+	
+	private void Pausar() {
+		 System.out.println("Presiones cualquier tecla para continuar...");
+	        try (Scanner sc = new Scanner(System.in))
+	        {
+	        	sc.nextLine();
+	            
+	        }  
+	        catch(Exception e)
+	        {}  
 	}
 	
 	private boolean VerificaSiVive(int PosFila, int PosColumna) {
@@ -90,7 +170,7 @@ public class Tabla {
 				 */
 				
 				try {
-					if(i!=PosFila && j !=PosColumna)  {
+					if(!(i==PosFila && j ==PosColumna))  {
 						if(this.datos[i][j]) {//Si encuentra un vecino vivo
 							NumVivos++;
 						}
