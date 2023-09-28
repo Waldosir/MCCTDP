@@ -18,7 +18,7 @@ public class CartasPoker {
 	}
 	
 	public String toString() {
-		return this.valorCarta + " de "+ this.simbolo;
+		return this.valorCarta + " de "+ this.simbolo+"\n";
 	}
 	
 

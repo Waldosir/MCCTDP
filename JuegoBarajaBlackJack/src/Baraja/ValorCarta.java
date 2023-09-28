@@ -1,6 +1,7 @@
 package Baraja;
 
 public enum ValorCarta {
+	AS(1),
 	DOS(2),
 	TRES(3),
 	CUATRO(4),
@@ -12,8 +13,8 @@ public enum ValorCarta {
 	DIEZ(10),
 	JOTAS(11),
 	REINA(12),
-	REY(13),
-	AS(14);
+	REY(13);
+	
 	
 	private int valorCarta;
 	
@@ -21,7 +22,7 @@ public enum ValorCarta {
 		this.valorCarta = valor;
 	}
 	
-	public int getValorCarta() {
+	public int getNumeroEnteroCarta() {
 		return valorCarta;
 	}
 }

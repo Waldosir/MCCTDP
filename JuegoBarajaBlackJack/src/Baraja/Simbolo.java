@@ -1,8 +1,8 @@
 package Baraja;
 
 public enum Simbolo {
-	TREBOL,
-	PICAS,
-	CORAZON,
-	DIAMANTE;
+	trebol,
+	picas,
+	corazon,
+	diamante;
 }

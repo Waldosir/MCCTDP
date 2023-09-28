@@ -9,38 +9,46 @@ import Baraja.Simbolo;
 import Baraja.ValorCarta;
 
 public class BarajaPoker {
-	private ArrayList baraja = new ArrayList();
+	private ArrayList<CartasPoker> baraja = new ArrayList();
+	private ArrayList<CartasPoker> barajaInicial = new ArrayList();
+	private int numeroDecks;
 	
-	public BarajaPoker() {
-		EmpezarMazo();
+	public BarajaPoker(int numeroDecks) {
+		this.numeroDecks = numeroDecks;
+		for(int i=0;i<numeroDecks;i++) {
+			CrearMazo();
+		}
+		this.barajaInicial = (ArrayList<CartasPoker>) this.baraja.clone();
+		
 	}
 	
 	public void EmpezarMazo() {
 		baraja.clear();
-		for(int i=0;i<13;i++) {
+		this.baraja =  (ArrayList<CartasPoker>) barajaInicial.clone();
+		System.out.println("\nSe ha creado un nuevo mazo\n");
+		
+	}
+	
+	private void CrearMazo() {//Creacion del mazo con sus 52 cartas iniciales
+		for(int i=0;i<ValorCarta.values().length;i++) {
 			ValorCarta valor = ValorCarta.values()[i];
 			
-			for(int j=0;j<4;j++) {
+			
+			for(int j=0;j<Simbolo.values().length;j++) {
 				CartasPoker carta = new CartasPoker(valor,Simbolo.values()[j]);
 				this.baraja.add(carta);
 			}
 		}
+		
 	}
 	
 	public String toString() {
-		/*
-		try {
-			CartasPoker cartaActual = baraja.get(0);
-			this.baraja.remove(0);
-			return cartaActual.getValorCarta() + " de "+ cartaActual.getSimbolo();
+		String dato = "Cartas en la baraja:\n";
+		for(int i=0;i<baraja.size();i++) {
+			dato += (i+1)+"-"+this.baraja.get(i).toString();
 		}
-		catch(Exception e) {
-			return "no hay cartas en el mazo para tomar";
-		}
-		*/
 		
-		
-		return "HOLAAAAAAA";
+		return dato+"\n";
 		
 	}
 	
@@ -60,9 +68,20 @@ public class BarajaPoker {
 	
 	}
 	
-	public Object DarCarta() {
-		CartasPoker cartaActual = (CartasPoker) this.baraja.get(0);
-		this.baraja.remove(0);
+	public CartasPoker SacarCarta() {
+		CartasPoker cartaActual;
+		try {
+			cartaActual = this.baraja.get(0);
+			this.baraja.remove(0);
+		}
+		catch(Exception NullPointerException) {
+			System.out.println("Se acabaron las cartas del mazo");
+			EmpezarMazo();
+			Barajar();
+			cartaActual = this.baraja.get(0);
+			this.baraja.remove(0);
+		}
+		
 		return cartaActual;
 	}
 	
