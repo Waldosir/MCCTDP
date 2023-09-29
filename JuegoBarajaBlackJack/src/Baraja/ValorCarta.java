@@ -1,6 +1,6 @@
 package Baraja;
 
-public enum ValorCarta {
+public enum ValorCarta { //Enumeracion del simbolo con su valor en numero
 	AS(1),
 	DOS(2),
 	TRES(3),
@@ -16,13 +16,13 @@ public enum ValorCarta {
 	REY(13);
 	
 	
-	private int valorCarta;
+	private int valorCarta; //Valor en numeros enteros
 	
-	private ValorCarta(int valor) {
+	private ValorCarta(int valor) { //Constructor ENUM
 		this.valorCarta = valor;
 	}
 	
-	public int getNumeroEnteroCarta() {
+	public int getNumeroEnteroCarta() {//Regresa el valor en enteros
 		return valorCarta;
 	}
 }

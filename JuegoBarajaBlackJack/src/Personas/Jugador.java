@@ -2,22 +2,31 @@ package Personas;
 
 import java.util.ArrayList;
 
-import Baraja.CartasPoker;
-
 public class Jugador {
 	
-	private String nombre;
-	private int numeroFichas;
-	private boolean estadoEnJuego;
-	private ArrayList cartas = new ArrayList();
-	private int montoAApostar;
+	private String nombre;//Nombre jugador
+	private int numeroFichas;//Numero de fichas
+	private boolean estadoEnJuego;//Si puede seguir dentro del juego (Si tiene 0 fichas no puede volver al juego)
+	private ArrayList cartas = new ArrayList(); //Guardar las cartas del jugador
+	private int montoAApostar; //El monto que va a apostar el jugador
+	private String estadoFinalRonda; //Ver si gana, pierde o empata
 	
 	public Jugador(String nombre, int numeroFichas) {//Constructor de jugador
 		this.nombre = nombre;
 		this.numeroFichas = numeroFichas;
 		this.estadoEnJuego = true;
 		this.montoAApostar=0;
+		this.estadoFinalRonda  = "";
 	}
+	
+	public String getEstadoFinalRonda() {//Ver si gana-pierde-empata
+		return this.estadoFinalRonda;
+	}
+	
+	public void setEstadoFinalRonda(String estadoFinalRonda) {//Colocar su estado actual
+		this.estadoFinalRonda  = estadoFinalRonda;
+	}
+	
 	public int getMontoAApostar() {//Ver si perdió o sigue jugando
 		return this.montoAApostar;
 	}
@@ -45,7 +54,7 @@ public class Jugador {
 			this.estadoEnJuego = true;
 		}
 		this.montoAApostar=0;
-		
+		this.estadoFinalRonda  = "";
 	}
 
 	public int getNumeroFichas() {//Saber fichas del jugador
