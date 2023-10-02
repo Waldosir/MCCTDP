@@ -5,21 +5,22 @@ import java.util.Collections;
 
 public class BarajaPoker {
 	private ArrayList<CartasPoker> baraja = new ArrayList<CartasPoker>();
-	private ArrayList<CartasPoker> barajaInicial = new ArrayList<CartasPoker>();
+	private int numeroDecks;
 	
 	public BarajaPoker(int numeroDecks) { //Entra un numero de Decks a crear
-		for(int i=0;i<numeroDecks;i++) {
-			crearMazo(); //Crea "numeroDecks" en total para un solo Deck
-		}
+		this.numeroDecks = numeroDecks;
+		empezarMazo();
 		//Para luego clonar la cantidad de cartas del Deck
-		this.barajaInicial =  (ArrayList<CartasPoker>) this.baraja.clone();
 		
 	}
 	
+	
 	public void empezarMazo() {
 		baraja.clear();//Limpia Deck
-		//Clona el Deck inicialmente como fue creado
-		this.baraja =  (ArrayList<CartasPoker>) barajaInicial.clone();
+		//Hace un deck
+		for(int i=0;i<this.numeroDecks;i++) {
+			crearMazo(); //Crea "numeroDecks" en total para un solo Deck
+		}
 		System.out.println("\nSe ha creado un nuevo mazo\n");
 		
 	}
@@ -78,6 +79,23 @@ public class BarajaPoker {
 		}
 		
 		return cartaActual; //Regesa la carta tomada
+	}
+	
+	public String mostrarCartaTope() {
+		CartasPoker cartaActual;
+		try {
+			cartaActual = this.baraja.get(0); //Toma la carta
+			this.baraja.remove(0);//Remueve la carta de la baraja
+		}
+		catch(Exception NullPointerException) { //Si se acaban las cartas
+			System.out.println("Se acabaron las cartas del mazo");
+			crearMazo();//Inicia mazo 
+			barajar();//Barajea mazo
+			cartaActual = this.baraja.get(0); //Toma la carta
+			this.baraja.remove(0);//Remueve la carta de la baraja
+		}
+		
+		return "La carta del tope es "+cartaActual.toString(); //Regesa la carta tomada
 	}
 	
 	

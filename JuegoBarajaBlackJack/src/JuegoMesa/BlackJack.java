@@ -24,7 +24,174 @@ public class BlackJack {
 		
 	}
 	
-	public void rondaMesa() {//Todo lo que se hace en una ronda
+	private void anadirJugadorNuevo() { //Crea un jugador
+		String nombre, cantidad;
+		int cantidadFichas;
+		do {
+			System.out.print("\nNombre del jugador nuevo:");
+			nombre = sc.next();
+			if(!(nombreRepetido(nombre))) {
+				System.out.print("Numero de fichas:");
+				cantidad = sc.next();
+				try {
+					cantidadFichas = Integer.parseInt(cantidad);
+					break;
+				}
+				catch(Exception e) {
+					System.out.println("Escribe un valor valido");
+				}
+			}else {
+				System.out.println("Nombre repetido. Tomar otro nombre");
+			}
+			
+		}while(true);
+		this.listaJugadores.add(new Jugador(nombre,cantidadFichas));
+	}
+	
+	private void borrarJugador() {//Borra un jugador
+		String opcion;
+		int opcionInt;
+		do {
+			System.out.println("0- Salir");
+			verJugadores();
+			System.out.print("Opcion:");
+			opcion = sc.next();
+			try {
+				opcionInt = Integer.parseInt(opcion);
+				if(opcionInt != 0) {
+					opcionInt-=1;
+					String nombreJ = this.listaJugadores.get(opcionInt).getNombre();
+					this.listaJugadores.remove(opcionInt);
+					System.out.println("Se ha removido el jugador |"+nombreJ+ "| con exito");
+				}
+				break;
+				
+			} catch(Exception e) {
+				System.out.println("Opcion no valida. Repetir opcion\n");
+			}
+		}while(true);
+		
+		
+		
+	}
+	
+	private void verJugadores() {//Ve informacion de los jugadores disponibles
+		System.out.println("Lista de jugadores:");
+		for(int i=0;i<listaJugadores.size();i++) {
+			System.out.println((i+1)+"- "+listaJugadores.get(i));
+		}
+	}
+	
+	private boolean nombreRepetido(String nombre) {
+		boolean condicion = false;
+		for(int i=0;i<this.listaJugadores.size();i++) {
+			if(this.listaJugadores.get(i).getNombre().equals(nombre)) {
+				condicion = true;
+				break;
+			}
+		}
+		return condicion;
+	}
+	
+	private void retirarJugadoresSinDinero() {
+		Jugador j;
+		for(int i=0;i<listaJugadores.size();i++) {
+			j = this.listaJugadores.get(i);
+			if(j.getNumeroFichas()<=0) {
+				this.listaJugadores.remove(i);
+				System.out.println(j+" fue eliminado de la partida");
+			}
+		}
+	}
+	
+	private void anadirDineroJugador() {
+		String opcion;
+		int opcionInt, fichas;
+		do {
+			System.out.println("0- Salir");
+			verJugadores();
+			System.out.print("Opcion:");
+			opcion = sc.next();
+			try {
+				opcionInt = Integer.parseInt(opcion);
+				if(opcionInt != 0) {
+					opcionInt-=1;
+					Jugador j = this.listaJugadores.get(opcionInt);
+					System.out.print("Dinero a anadir:");
+					fichas= Integer.parseInt(sc.next());
+					j.darNumeroFichas(-fichas);
+					System.out.println("El jugador "+j.getNombre()+ "se le han anadido las fichas "+fichas);
+				}
+				break;
+				
+			} catch(Exception e) {
+				System.out.println("Opcion no valida. Repetir opcion\n");
+			}
+		}while(true);
+		
+		
+	}
+	
+	public void menuJugarBJ() {
+		boolean ciclo = true;
+		do {
+			System.out.println("\nMenu BlackJack");
+			System.out.println("0-Salir");
+			System.out.println("1-Jugar la mesa actual");
+			System.out.println("2-Anadir jugador");
+			System.out.println("3-Retirar jugador");
+			System.out.println("4-Ver informacion de jugadores");
+			System.out.println("5- Anadir ficha a jugador");
+			String opcion = sc.next();
+			switch(opcion){
+			case "0":
+				ciclo = false;
+				break;
+			case "1":
+				if(listaJugadores.size()>0) {
+					rondaMesa();
+				}else {
+					System.out.println("No hay jugadores");
+				}
+				
+				break;
+			case "2":
+				if(listaJugadores.size()<7) {
+					anadirJugadorNuevo();
+				}else {
+					System.out.println("No se pueden anadir mas jugadores");
+				}
+				
+				break;
+			case "3":
+				if(listaJugadores.size()>0) {
+					borrarJugador();
+				}else {
+					System.out.println("No hay jugadores");
+				}
+				
+				break;
+			case "4":
+				verJugadores();
+				break;
+			case "5":
+				if(listaJugadores.size()>0) {
+					anadirDineroJugador();
+				}else {
+					System.out.println("No hay jugadores");
+				}
+				break;
+			default:
+				System.out.println("No es una opcion valida. Volver a intentar");
+				
+			}
+			
+			
+		}while(ciclo);
+		
+	}
+	
+	private void rondaMesa() {//Todo lo que se hace en una ronda
 		//Todos los pasos que hay en una ronda
 		faseApuestasIniciales();//Apostar antes de iniciar
 		entregarCartasJugadores();//Entrega 2 cartas a cada jugador
@@ -48,9 +215,10 @@ public class BlackJack {
 		
 		verGanadores();//Checa ganadores
 		limpiarJugadores();//Limpia jugadores
+		retirarJugadoresSinDinero();
 	}
 	
-	public void asegurarApuestaJugadorACrupierBJ() {//Apostar para asegurar que Crupier tiene BJ
+	private void asegurarApuestaJugadorACrupierBJ() {//Apostar para asegurar que Crupier tiene BJ
 		Jugador j; String Opcion; boolean ciclo = true;
 		for(int i=0;i<this.listaJugadores.size();i++) {
 			j = this.listaJugadores.get(i);//Toma un jugador
@@ -84,16 +252,19 @@ public class BlackJack {
 		}
 	}
 	
-	public void faseApuestasIniciales() {//Apuestas iniciales
+	private void faseApuestasIniciales() {//Apuestas iniciales
 		Jugador j;
 		for(int i=0;i<this.listaJugadores.size();i++) {
 			j = this.listaJugadores.get(i);
-			cantidadInicialApostada(j);//Inicializar la apuesta
+			if(j.getEstadoEnJuego()) {
+				cantidadInicialApostada(j);//Inicializar la apuesta	
+			}
+			
 		}
 		
 	}
 	
-	public void entregarCartasJugadores() {//Entrega cartas a jugadores
+	private void entregarCartasJugadores() {//Entrega cartas a jugadores
 		for(int j=0;j<2;j++) {//2 cartas
 			for(int i=0;i<this.listaJugadores.size();i++) {//Todos los jugadores
 				this.listaJugadores.get(i).tomarCarta(this.barajaPoker.sacarCarta());
@@ -103,7 +274,7 @@ public class BlackJack {
 		System.out.println("Se reparten 2 cartas a cada jugador y al Crupier");
 	}
 	
-	public void limpiarJugadores() {//Limpia cartas de sus jugadores
+	private void limpiarJugadores() {//Limpia cartas de sus jugadores
 		this.crupier.retirarCartas();
 		for(int i=0;i<this.listaJugadores.size();i++) {
 			this.listaJugadores.get(i).retirarCartas();
@@ -114,7 +285,10 @@ public class BlackJack {
 	
 	private void turnoJugadores() {//Turno de cada jugador
 		for(int i =0;i<listaJugadores.size();i++) {//Recorre todos los jugadores
-			turnoDeUnJugador(this.listaJugadores.get(i),i);//Turno de cada jugador
+			if(this.listaJugadores.get(i).getEstadoEnJuego()) {
+				turnoDeUnJugador(this.listaJugadores.get(i),i);//Turno de cada jugador	
+			}
+			
 		}
 	}
 	
@@ -148,7 +322,7 @@ public class BlackJack {
 		dato+= j.manoJugador();//Cartas del jugador
 		dato+="\nCarta visible del cupier:"+crupier.getCartas(0);//Carta del crupier
 		//Valor de sus cartas en numeros - Fichas del jugador - Valor de su apuesta.
-		dato+="Valor actual: "+valorDeSusCartas(j)+" --- Fichas:"+j.getNumeroFichas()+" --- valor apuesta: "+j.getMontoAApostar()+"\n";
+		dato+="Valor actual: "+j.valorDeSusCartasEnBJ()+" --- Fichas:"+j.getNumeroFichas()+" --- valor apuesta: "+j.getMontoAApostar()+"\n";
 		return dato;
 	}
 	
@@ -185,7 +359,7 @@ public class BlackJack {
 	
 	private boolean sigueTurnoJugador(Jugador j) {//Verifica si el jugador puede seguir jugando
 		boolean turnoJugador = true;
-		if(valorDeSusCartas(j)>21) {//Si se pasa de la cantidad
+		if(j.valorDeSusCartasEnBJ()>21) {//Si se pasa de la cantidad
 			j.setEstadoEnJuego(false);
 			turnoJugador = false;
 			j.setEstadoFinalRonda("pierde");
@@ -199,10 +373,10 @@ public class BlackJack {
 		j.tomarCarta(carta);//Jugador toma la carta
 		//Valores de la carta (Nombre, numero) y el total sumado del jugador
 		System.out.print("La carta sacada es "+carta.toString());
-		System.out.println("Total sumado: "+valorDeSusCartas(j));
+		System.out.println("Total sumado: "+j.valorDeSusCartasEnBJ());
 	}
 	
-	public void turnoDeUnJugador(Jugador j, int posicion) {//Turno de un solo jugador
+	private void turnoDeUnJugador(Jugador j, int posicion) {//Turno de un solo jugador
 		boolean turnoJugador = true;//Para que el jugador tome decisiones hasta que se quede o pierda
 		while(turnoJugador) {
 			switch(opcionesDeJugador(j)) {//Escoge una opcion
@@ -266,11 +440,11 @@ public class BlackJack {
 		return dato;
 	}
 	
-	public void turnoCupier() {//Todo lo del turno del crupier
-		int numeroCrupier = valorDeSusCartas(this.crupier);//Checa mano del crupier
+	private void turnoCupier() {//Todo lo del turno del crupier
+		int numeroCrupier = this.crupier.valorDeSusCartasEnBJ();//Checa mano del crupier
 		while(numeroCrupier<=16) {//Crupier debe de ser mayor de 16
 			this.crupier.tomarCarta(this.barajaPoker.sacarCarta());
-			numeroCrupier = valorDeSusCartas(this.crupier);
+			numeroCrupier = this.crupier.valorDeSusCartasEnBJ();
 		}
 		if(numeroCrupier>21) {
 			this.crupier.setEstadoEnJuego(false);
@@ -280,37 +454,8 @@ public class BlackJack {
 		espera();
 		}
 	
-	private int valorDeSusCartas(Jugador jugadorActual) {
-		//Los ases, su valor numerado y el valorCarta de la suma
-		int As = 0; int valorCarta = 0, sumaNumeracionCartas = 0;
-		CartasPoker carta;//Objeto carta
-		
-		for(int i=0;i<jugadorActual.getNumeroDeCartasEnMano();i++) {//Checa toda su mano
-			carta = (CartasPoker) jugadorActual.getCartas(i);//Saca una carta
-			valorCarta = carta.getValorCarta().getNumeroEnteroCarta();//Obtiene el valor de la carta
-			if(valorCarta==1) {//Si es un As
-				As ++;
-			}
-			else if(valorCarta<=10) {//Si vale menos de 10
-				sumaNumeracionCartas += valorCarta;
-			}else  {//Si es J, Q o K
-				sumaNumeracionCartas += 10;
-			}
-			
-			while(As>0) {//Suma los Ases al final
-				if(sumaNumeracionCartas<=10 && As==1) {//Ultimo As si es menor de 10 suma 11
-					sumaNumeracionCartas +=11;
-				}else {//Si hay mas de dos As
-					sumaNumeracionCartas +=1;
-				}
-				As--;//Cuando termina de sumar cada As
-			}
-		}
-		return sumaNumeracionCartas;
-	}
-	
 	private boolean condicionBlackJack(Jugador j) {
-		if(valorDeSusCartas(j)==21 && j.getNumeroDeCartasEnMano()==2) {
+		if(j.valorDeSusCartasEnBJ()==21 && j.getNumeroDeCartasEnMano()==2) {
 			return true;
 		}
 		return false;
@@ -321,8 +466,8 @@ public class BlackJack {
 		//Condiciones para ver si gana, empata o pierde
 		String gana = "gana", pierde = "pierde";
 		
-		int numeroCrupier = valorDeSusCartas(this.crupier);//Valor de la carta del crupier
-		int numeroJugador = valorDeSusCartas(jActual);//Valor de la carta del jugador
+		int numeroCrupier = this.crupier.valorDeSusCartasEnBJ(); //Valor de la carta del crupier
+		int numeroJugador = jActual.valorDeSusCartasEnBJ();//Valor de la carta del jugador
 		String condicionJugador;
 		
 		if(numeroJugador>numeroCrupier) {//Jugador tiene mano mayor que el crupier
@@ -355,37 +500,39 @@ public class BlackJack {
 	
 	private void entregaFichasJugadorV_D_E( Jugador jActual) {
 		int numeroFichas;
-		switch(jActual.getEstadoFinalRonda()) {
-		case "gana":
-			if(condicionBlackJack(jActual)) {
-				numeroFichas = (int) (-2.5*jActual.getMontoAApostar());
-				jActual.setEstadoFinalRonda("gana");
-			}else {
-				numeroFichas = -2*jActual.getMontoAApostar();
+		if(jActual.getMontoAApostar()>0) {
+			switch(jActual.getEstadoFinalRonda()) {
+			case "gana":
+				if(condicionBlackJack(jActual)) {
+					numeroFichas = (int) (-2.5*jActual.getMontoAApostar());
+					jActual.setEstadoFinalRonda("gana");
+				}else {
+					numeroFichas = -2*jActual.getMontoAApostar();
+				}
+				jActual.darNumeroFichas(numeroFichas);
+				break;
+			case "empate":
+				jActual.darNumeroFichas(-jActual.getMontoAApostar());
+				break;
+			case "pierde":
+				break;
+			case "apostadoBJ":
+				numeroFichas = -jActual.getMontoAApostar();
+				jActual.darNumeroFichas(numeroFichas);
+				break;
+			default:
+				System.out.println("Solo existen 3 casos. En caso de ver esto, contactar al programador");
+				break;
 			}
-			jActual.darNumeroFichas(numeroFichas);
-			break;
-		case "empate":
-			jActual.darNumeroFichas(-jActual.getMontoAApostar());
-			break;
-		case "pierde":
-			break;
-		case "apostadoBJ":
-			numeroFichas = (int) (-jActual.getMontoAApostar());
-			jActual.darNumeroFichas(numeroFichas);
-			break;
-		default:
-			System.out.println("Solo existen 3 casos. En caso de ver esto, contactar al programador");
-			break;
+			
 		}
-		
 		
 	}
 	
-	public void verGanadores() {
+	private void verGanadores() {
 		//Condiciones para ver si gana, empata o pierde
 		
-		int numeroCrupier = valorDeSusCartas(this.crupier);
+		int numeroCrupier = this.crupier.valorDeSusCartasEnBJ();
 		Jugador jActual;
 		
 		//Si perdio el crupier
@@ -413,19 +560,27 @@ public class BlackJack {
 		String muestraBJ= " Blackjack - ";
 		for(int i=0;i<this.listaJugadores.size();i++) {//Recorre todos los jugadores
 			jActual = this.listaJugadores.get(i);//Jugador actual
-			numeroJugador = valorDeSusCartas(jActual);
-			
-			muestraInfo +=jActual.getNombre()+" (num:"+numeroJugador+" ) - ";
-			
-			if(condicionBlackJack(jActual)) {
-				muestraInfo+= muestraBJ;
+			if(jActual.getMontoAApostar()>0) {
+				numeroJugador = jActual.valorDeSusCartasEnBJ();
+				
+				muestraInfo +=jActual.getNombre()+" (num:"+numeroJugador+" ) - ";
+				
+				if(condicionBlackJack(jActual)) {
+					muestraInfo+= muestraBJ;
+				}
+				muestraInfo+= this.crupier.getNombre()+" (num: "+numeroCrupier+" ) ";
+				muestraInfo += "->"+jActual.getEstadoFinalRonda()+"\n";
+		
+			}	
 			}
-			muestraInfo+= this.crupier.getNombre()+" (num: "+numeroCrupier+" ) ";
-			muestraInfo += "->"+jActual.getEstadoFinalRonda()+"\n";
-	
-		}
+				
+			
 		return muestraInfo;
 		
+	}
+	
+	public void cerrarScanner() {
+		sc.close();
 	}
 		
 
