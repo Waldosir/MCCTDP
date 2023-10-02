@@ -113,8 +113,7 @@ public class MainBlackJack {
 	
 	public static void main(String[] args) {
 		
-		BlackJack mesa1 =  mesaNuevaBJ()
-				;
+		BlackJack mesa1 =  mesaNuevaBJ();
 		int numeroRondas = 12;
 		
 		for(int i=1;i<=numeroRondas;i++) {
