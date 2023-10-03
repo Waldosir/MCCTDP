@@ -37,7 +37,6 @@ public class Jugador {
 		this.montoAApostar = montoAApostar ;
 	}
 	
-	
 	public int getNumeroDeCartasEnMano() { //Ver cantidad de cartas en su mano
 		return cartas.size();
 	}

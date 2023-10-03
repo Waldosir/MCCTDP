@@ -11,7 +11,7 @@ import Personas.Crupier;
 
 public class BlackJack {
 	static private final String gana = "gana", empate = "empate", pierde = "pierde", apostadoBJ = "apostadoBJ";
-	static Scanner sc = new Scanner(System.in);//Leer datos
+	static private Scanner sc = new Scanner(System.in);//Leer datos
 	
 	private ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
 	private BarajaPoker barajaPoker;
@@ -142,6 +142,7 @@ public class BlackJack {
 			System.out.println("3-Retirar jugador");
 			System.out.println("4-Ver informacion de jugadores");
 			System.out.println("5- Anadir ficha a jugador");
+			System.out.print("Opcion:");
 			String opcion = sc.next();
 			switch(opcion){
 			case "0":
@@ -499,7 +500,7 @@ public class BlackJack {
 	}
 	
 	private void entregaFichasJugadorV_D_E( Jugador jActual) {
-		int numeroFichas;
+		int numeroFichas = 0;
 		if(jActual.getMontoAApostar()>0) {
 			switch(jActual.getEstadoFinalRonda()) {
 			case "gana":
@@ -509,21 +510,29 @@ public class BlackJack {
 				}else {
 					numeroFichas = -2*jActual.getMontoAApostar();
 				}
-				jActual.darNumeroFichas(numeroFichas);
 				break;
 			case "empate":
-				jActual.darNumeroFichas(-jActual.getMontoAApostar());
+				numeroFichas = -jActual.getMontoAApostar();
 				break;
 			case "pierde":
+				numeroFichas = 0;
+				if(condicionBlackJack(jActual)) {
+					numeroFichas = -jActual.getMontoAApostar();
+					jActual.setEstadoFinalRonda(empate);
+				}
 				break;
 			case "apostadoBJ":
 				numeroFichas = -jActual.getMontoAApostar();
-				jActual.darNumeroFichas(numeroFichas);
+				if(condicionesDeEmpate(jActual).equals("empate")) {
+					numeroFichas *= 2;
+					jActual.setEstadoFinalRonda(empate);
+				}
 				break;
 			default:
 				System.out.println("Solo existen 3 casos. En caso de ver esto, contactar al programador");
 				break;
 			}
+			jActual.darNumeroFichas(numeroFichas);
 			
 		}
 		

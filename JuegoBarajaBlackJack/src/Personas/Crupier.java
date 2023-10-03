@@ -17,6 +17,5 @@ public class Crupier extends Jugador {
 		return this.getCartas(0).toString();
 	}
 	
-	
 
 }

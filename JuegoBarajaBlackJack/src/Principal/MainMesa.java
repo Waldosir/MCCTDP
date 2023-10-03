@@ -8,7 +8,15 @@ import JuegoMesa.BlackJack;
 import Personas.Crupier;
 import Personas.Jugador;
 
-public class MainBlackJack {
+/*GONZALEZ ROBLES ALDAIR - M17171128
+ * Este programa simula el juego de 21 o BlackJack
+ * Donde el Crupier roba cartas hasta tener 17 o mas
+ * y los jugadores deben de ganarle al crupier sin pasarse de 21
+ * y a su vez si el crupier se pasa de 21 los jugadores que no
+ * se hayan pasado de 21 ganan. Se aplican la mayoria
+ * de reglas del Crupier
+*/
+public class MainMesa {
 	static Scanner sc = new Scanner(System.in);//Leer datos
 	
 	public static BarajaPoker barajaNueva() {//Crea una baraja nueva
@@ -110,69 +118,14 @@ public class MainBlackJack {
 		
 	}
 
-	public static void cerrarScanner(BlackJack mesa) {
-		mesa.cerrarScanner();
-		sc.close();
-	}
-	
 	public static void main(String[] args) {
 		
 		BlackJack mesa1 =  mesaNuevaBJ(); //  mesaPruebas();
 		mesa1.menuJugarBJ();
 		
-		cerrarScanner(mesa1);
-		
+		mesa1.cerrarScanner();
+		sc.close();
 		System.out.println("Se termino las rondas");
 	}
 	
-	
-	/* Esta parte se usa para recrear casos en especifico y ver funcionalidades
-	//Mesa para pruebas rapidas
-	public static BlackJack mesaPruebas() {
-		BarajaPoker baraja = new BarajaPoker(1);
-		baraja.barajar();
-		
-		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-		jugadores.add(new Jugador("Aldair",1000));	
-		//jugadores.add(new Jugador("Jaime",100));
-		//jugadores.add(new Jugador("Joel",100));
-		Crupier c = new Crupier("Crupier",1000);
-		BlackJack mesaPrueba = new BlackJack(jugadores,baraja,c);
-		
-		return mesaPrueba;
-	}
-	
-	
-	//Pruebas mas especificas.
-	public static CartasPoker cartaPrueba(int valorCarta, int palo) {
-		CartasPoker carta = new CartasPoker(ValorCarta.values()[valorCarta], Simbolo.values()[palo]);
-		
-		return carta;
-	}
-	
-	public static ArrayList<CartasPoker> listaPrueba(){
-		ArrayList<CartasPoker> listaP  = new ArrayList<CartasPoker>();
-		listaP.add(cartaPrueba(7, 0));
-		listaP.add(cartaPrueba(0, 0));
-		return listaP;
-	}
-	
-	public static BlackJack mesaPruebasErrores() {
-		BarajaPoker baraja = new BarajaPoker(1);
-		int numerocartas  = 49;
-		for(int i  =0; i<numerocartas;i++) {
-			baraja.sacarCarta();
-		}
-		
-		System.out.println(baraja.mostrarCartaTope());
-		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-		jugadores.add(new Jugador("Aldair",1000));	
-		jugadores.get(0).setCartas(listaPrueba());
-		Crupier c  = new Crupier("CrupierC",1000);
-		c.setCartas(listaPrueba());
-		BlackJack mesaPrueba = new BlackJack(jugadores,baraja,c);
-		
-		return mesaPrueba;
-	}
-	*/
 }
