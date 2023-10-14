@@ -1,5 +1,7 @@
 package principal;
 
+import java.util.Scanner;
+
 import enums.dificultad;
 import juegoBuscaminas.Casillas;
 import juegoBuscaminas.TablaBuscaminas;
@@ -7,9 +9,20 @@ import juegoBuscaminas.TablaBuscaminas;
 public class mainBuscaminas {
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int filaU, columnaU;
 		TablaBuscaminas t1 = new TablaBuscaminas(dificultad.principiante.getLargoTabla(),dificultad.principiante.toString());
 		Casillas c = t1.getCasilla(0, 0);
 		System.out.println(c.getNumero());
+		boolean sigueVivo = true;
+		do {
+			System.out.println(t1);
+			System.out.print("Fila: ");
+			filaU = sc.nextInt();
+			System.out.print("columna: ");
+			columnaU = sc.nextInt();
+			sigueVivo = t1.seleccionarCasilla(filaU, columnaU);
+		}while(sigueVivo);
 		
 		System.out.println(t1);
 	}

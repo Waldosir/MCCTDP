@@ -5,17 +5,18 @@ public class Casillas {
 	private boolean casillaTapada;
 	private int numero;
 	
-	public Casillas(int numero){
-		this.numero = numero;
+	
+	public Casillas(){
+		this.numero = 0;
 		this.hayMina = false;
-		this.casillaTapada = false;
+		this.casillaTapada = true;
 		
 	}
 	
 	public Casillas(boolean hayMina) {
 		this.hayMina = hayMina;
 		this.numero = 0;
-		this.casillaTapada = false;
+		this.casillaTapada = true;
 	}
 	
 	public boolean getHayMina() {

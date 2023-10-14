@@ -47,6 +47,7 @@ public class TablaBuscaminas {
 		this.numeroMinas = (int)(porcentaje*getTamanoTabla());
 		System.out.println("Minas hechas:"+this.numeroMinas);
 		generarMinas(this.numeroMinas);
+		generarCasillasVacias();
 		generarNumeros();
 	}
 	
@@ -69,36 +70,46 @@ public class TablaBuscaminas {
 		
 	}
 	
-	private void generarNumeros() {
+	private void generarCasillasVacias() {
 		for(int i=0;i<this.fila;i++) {
 			for(int j=0;j<this.columna;j++) {
-				try {
-					if(this.tablaBuscaminas[i][j].getHayMina()) {
-						
-					}
-				}catch(Exception NullPointerException) {
-					this.tablaBuscaminas[i][j] = new Casillas(cantidadMinasVecinas(i,j));
+				if(this.tablaBuscaminas[i][j] == null) {
+					this.tablaBuscaminas[i][j] = new Casillas();
 				}
+				
 			}
 		}
 		
 	}
-	
+	private void generarNumeros() {
+		for(int i=0;i<this.fila;i++) {
+		for(int j=0;j<this.columna;j++) {
+			if(!this.tablaBuscaminas[i][j].getHayMina()) {
+				this.tablaBuscaminas[i][j].setNumero(cantidadMinasVecinas(i,j));
+			}
+		}
+		}
+	}
 	private int cantidadMinasVecinas(int posX, int posY) {
 		int cantidadMinas = 0;
+		System.out.println("Empieza posicion "+posX+" - "+posY);
 		for(int i=posX-1;i<=posX+1;i++) {
-			for(int j=posY-1;j<posY+1;j++) {
+			for(int j=posY-1;j<=posY+1;j++) {
 				try {
 					if(!(i==posX && j==posY)) {
+						System.out.println("Posicion "+i+" - "+j);
 						if(this.tablaBuscaminas[i][j].getHayMina()) {
 							cantidadMinas++;
+							System.out.println("Hay mina");
 						}
 					}
 				}
 				catch(Exception NullPointerException) {
+					System.out.println("Hubo error");
 				}
 			}
 		}
+		System.out.println("Es todo \n");
 		return cantidadMinas;
 	}
 	
@@ -106,8 +117,71 @@ public class TablaBuscaminas {
 		return this.fila*this.columna;
 	}
 	
-
+	public void destaparCasillas(int x, int y) {
+		
+			if((this.tablaBuscaminas[x][y].getNumero()>0) || !(this.tablaBuscaminas[x][y].getCasillaTapada()) ) {
+				this.tablaBuscaminas[x][y].setCasillaTapada(false);
+				return;
+			}else {
+				this.tablaBuscaminas[x][y].setCasillaTapada(false);
+				
+				for(int i=x-1;i<=x+1;i++) {
+					for(int j=y-1;j<=y+1;j++) {
+						try {
+							destaparCasillas(i,j);
+						}
+							catch(Exception NullPointerException) {
+					}
+					}
+					
+			
+		}
+		}
+		
+	}
 	
+	public boolean seleccionarCasilla(int x, int y) {
+		try {
+			if(this.tablaBuscaminas[x][y].getHayMina()) {
+			System.out.println("Perdiste");
+			destaparTodo();
+			return false;
+		}else {
+			destaparCasillas(x, y);
+			if(ganar()){
+				System.out.println("Ganaste");
+				return false;
+			}
+			
+			return true;
+		}
+			
+		}catch(Exception NullPointerException) {
+			System.out.println("No existe esa casilla");
+			return true;
+		}
+		
+		
+	}
+
+	public void destaparTodo() {
+		for(int i=0;i<this.fila;i++) {
+			for(int j=0;j<this.columna;j++) {
+					this.tablaBuscaminas[i][j].setCasillaTapada(false);
+				}
+			}
+	}
+	
+	private boolean ganar() {
+		for(int i=0;i<this.fila;i++) {
+			for(int j=0;j<this.columna;j++) {
+					if(!(this.tablaBuscaminas[i][j].getHayMina())&&(this.tablaBuscaminas[i][j].getCasillaTapada())){
+						return false;
+					}
+				}
+			}
+		return true;
+	}
 
 	
 	
