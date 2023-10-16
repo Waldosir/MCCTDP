@@ -1,0 +1,76 @@
+/*
+	Example: A tip calculation FIS (fuzzy inference system)
+	Calculates tip based on 'servie' and 'food'
+
+	If you want to about this example (and fuzzy logic), please 
+	read Matlab's tutorial on fuzzy logic toolbox 
+	http://www.mathworks.com/access/helpdesk/help/pdf_doc/fuzzy/fuzzy.pdf
+
+									Pablo Cingolani 
+									pcingola@users.sourceforge.net
+*/
+
+FUNCTION_BLOCK tipper	// Block definition (there may be more than one block per file)
+
+VAR_INPUT				// Define input variables
+	time : REAL;
+	mistakes : REAL;
+	difficult : REAL;	
+	level : REAL;
+	
+END_VAR
+
+VAR_OUTPUT				// Define output variable
+	points : REAL;
+END_VAR
+
+FUZZIFY time		// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM low := (0, 1) (150, 0) ; 
+	TERM average := (90, 0) (150,1) (210,1) (270,0);
+	TERM high := (210, 0) (360, 1);
+END_FUZZIFY
+
+
+FUZZIFY mistakes			// Fuzzify input variable 'food': { 'rancid', 'delicious' }
+	TERM low := (0, 1) (1, 1) (3,0) ;
+	TERM high := (1.5,0) (4,1);
+END_FUZZIFY
+
+FUZZIFY difficult			// Fuzzify input variable 'food': { 'rancid', 'delicious' }
+	TERM low := (0, 1) (1, 1) (3,0) ;
+	TERM high := (1.5,0) (3,1);
+END_FUZZIFY
+
+FUZZIFY level			// Fuzzify input variable 'food': { 'rancid', 'delicious' }
+	TERM low := (0, 1) (1, 1) (3,0) ;
+	TERM high := (1.5,0) (5,1);
+END_FUZZIFY
+
+DEFUZZIFY points			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM low := (0,1) (2,0);
+	TERM average := (1,0) (3,1) (5,0);
+	TERM high := (4,0) (10,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+	
+
+	RULE 1 : IF time IS high THEN points IS low;
+	RULE 2 : IF time IS low THEN points IS high;
+	RULE 3 : IF time IS low THEN points IS average;
+	RULE 4 : IF level IS low THEN points IS low;
+	RULE 5 : IF level IS high THEN points IS high;
+	RULE 6 : IF mistakes IS low THEN points IS high;
+	RULE 7 : IF mistakes IS high THEN points IS low;
+	RULE 8 : IF difficult IS low THEN points IS low;
+	RULE 9 : IF difficult IS high THEN points IS high;
+
+	
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

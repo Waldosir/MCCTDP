@@ -1,7 +1,5 @@
 package juegoBuscaminas;
 
-import java.util.ArrayList;
-
 import enums.dificultad;
 
 public class TablaBuscaminas {
@@ -92,24 +90,19 @@ public class TablaBuscaminas {
 	}
 	private int cantidadMinasVecinas(int posX, int posY) {
 		int cantidadMinas = 0;
-		System.out.println("Empieza posicion "+posX+" - "+posY);
 		for(int i=posX-1;i<=posX+1;i++) {
 			for(int j=posY-1;j<=posY+1;j++) {
 				try {
 					if(!(i==posX && j==posY)) {
-						System.out.println("Posicion "+i+" - "+j);
 						if(this.tablaBuscaminas[i][j].getHayMina()) {
 							cantidadMinas++;
-							System.out.println("Hay mina");
 						}
 					}
 				}
 				catch(Exception NullPointerException) {
-					System.out.println("Hubo error");
 				}
 			}
 		}
-		System.out.println("Es todo \n");
 		return cantidadMinas;
 	}
 	
@@ -142,11 +135,16 @@ public class TablaBuscaminas {
 	
 	public boolean seleccionarCasilla(int x, int y) {
 		try {
-			if(this.tablaBuscaminas[x][y].getHayMina()) {
+			if(this.tablaBuscaminas[x][y].getHayMina() && !this.tablaBuscaminas[x][y].getBloquear()) {
 			System.out.println("Perdiste");
 			destaparTodo();
 			return false;
-		}else {
+		}else if(this.tablaBuscaminas[x][y].getBloquear()) {
+			System.out.println("Estado: "+this.tablaBuscaminas[x][y].getBloquear());
+			System.out.println("Casilla bloqueada. No se puede seleccionar");
+			return true;
+		}
+			else{
 			destaparCasillas(x, y);
 			if(ganar()){
 				System.out.println("Ganaste");
@@ -206,24 +204,33 @@ public class TablaBuscaminas {
 			}
 			
 			for(int j=0;j<this.columna;j++)//For de columnas
-			{ if(!this.tablaBuscaminas[i][j].getCasillaTapada()) {
-				if(this.tablaBuscaminas[i][j].getHayMina()) {
-					FormaTabla +="B  ";
+			{ 
+				if(!this.tablaBuscaminas[i][j].getCasillaTapada()) {//Si la casilla esta destapada
+				if(this.tablaBuscaminas[i][j].getHayMina()) {//Si es una mina
+					FormaTabla +="E  ";//Explosion
 				}
-				else if(this.tablaBuscaminas[i][j].getNumero()>0) { //Caso donde organismos esten vivos
+				else if(this.tablaBuscaminas[i][j].getNumero()>0) { //Casilla con numero
 					FormaTabla +=this.tablaBuscaminas[i][j].getNumero()+"  ";
 				}
-				else {//Caso donde organismos esten muertos
+				else {//Casilla sin numero
 					FormaTabla+="-  ";
 				}
-			}else {//Caso donde organismos esten muertos
-				FormaTabla+="X  ";
+			}else {
+				if(this.tablaBuscaminas[i][j].getMarcaBomba()) {
+					FormaTabla+="M  ";//Mina
+				}else if(this.tablaBuscaminas[i][j].getBloquear()) {
+					FormaTabla+="N  ";//Bloqueo
+				}else {
+					FormaTabla+="X  ";
+				}
+				
+				
 			}
 				
 			}
 			FormaTabla+="\n";//Salto de linea
 		}
-		
+		FormaTabla+="\nNumero de minas: "+this.numeroMinas+"";
 		return FormaTabla;
 		
 	}
