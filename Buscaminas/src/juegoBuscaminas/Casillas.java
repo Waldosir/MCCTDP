@@ -1,14 +1,14 @@
 package juegoBuscaminas;
 
 public class Casillas {
-	private boolean hayMina;
-	private boolean casillaTapada;
-	private int numero;
-	private boolean bloquear;
-	private boolean marcaBomba;
+	private boolean hayMina;//La mina como tal
+	private boolean casillaTapada;//Si esta destapada o tapada la casilla
+	private int numero; //Numero de minas alrededor
+	private boolean bloquear; //Bloquear casilla ("?")
+	private boolean marcaBomba; //Marca jugador si piensa que es una bomba
 	
 	
-	public Casillas(){
+	public Casillas(){ //Constructor casilla vacia
 		this.numero = 0;
 		this.hayMina = false;
 		this.casillaTapada = true;
@@ -16,7 +16,7 @@ public class Casillas {
 		this.marcaBomba = false;
 	}
 	
-	public Casillas(boolean hayMina) {
+	public Casillas(boolean hayMina) { //Constructor mina
 		this.hayMina = hayMina;
 		this.numero = 0;
 		this.casillaTapada = true;
@@ -28,7 +28,7 @@ public class Casillas {
 		return this.marcaBomba;
 	}
 	
-	
+	//Marcar tambien bloquea
 	public void setMarcaBomba(boolean marca) {
 		this.bloquear = marca;
 		this.marcaBomba = marca;
@@ -42,7 +42,7 @@ public class Casillas {
 	
 	public void setBloquear(boolean bloquear) {
 		this.bloquear = bloquear;
-		if(bloquear = false) {
+		if(bloquear = false) { //Si el usuario desbloquea una marca de bomba
 			this.marcaBomba = false;
 		}
 	}
@@ -69,10 +69,19 @@ public class Casillas {
 	
 	public void setCasillaTapada(boolean casillaTapada) {
 		this.casillaTapada = casillaTapada;
-		if(this.casillaTapada==false) {
+		if(this.casillaTapada==false) { //Si destapa de casualidad una casilla marcada
 			this.bloquear = false;
 			this.marcaBomba= false;
 		}
+	}
+	
+	public boolean condicionColocarMarca() {
+		if(this.casillaTapada) {
+			if(!(this.bloquear || this.marcaBomba)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

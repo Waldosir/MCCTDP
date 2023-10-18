@@ -192,6 +192,8 @@ public class BlackJack {
 		
 	}
 	
+	
+	//CHECA ESTO
 	private void rondaMesa() {//Todo lo que se hace en una ronda
 		//Todos los pasos que hay en una ronda
 		faseApuestasIniciales();//Apostar antes de iniciar
