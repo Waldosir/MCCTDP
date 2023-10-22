@@ -7,18 +7,9 @@ public class Casillas {
 	private boolean bloquear; //Bloquear casilla ("?")
 	private boolean marcaBomba; //Marca jugador si piensa que es una bomba
 	
-	
-	public Casillas(){ //Constructor casilla vacia
+	public Casillas(boolean hayMina) { //Constructor que solo cambia si es una mina o no
 		this.numero = 0;
-		this.hayMina = false;
-		this.casillaTapada = true;
-		this.bloquear = false;
-		this.marcaBomba = false;
-	}
-	
-	public Casillas(boolean hayMina) { //Constructor mina
 		this.hayMina = hayMina;
-		this.numero = 0;
 		this.casillaTapada = true;
 		this.bloquear = false;
 		this.marcaBomba = false;
@@ -76,8 +67,8 @@ public class Casillas {
 	}
 	
 	public boolean condicionColocarMarca() {
-		if(this.casillaTapada) {
-			if(!(this.bloquear || this.marcaBomba)) {
+		if(this.casillaTapada) {//Si esta tapada
+			if(!(this.bloquear || this.marcaBomba)) { //Si no cumple que (esta bloqueada o tiene marca de bomba)
 				return true;
 			}
 		}

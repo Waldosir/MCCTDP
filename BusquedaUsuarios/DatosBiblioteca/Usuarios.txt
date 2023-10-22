@@ -1,0 +1,5 @@
+1|Clara|1234|0
+3|Pedro|Paramo|1
+4|Ramon|Ayala|0
+5|Simon|Bolivar|0
+2|Ecko|1234|0

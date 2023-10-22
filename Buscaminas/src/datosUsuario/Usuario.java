@@ -1,44 +1,55 @@
 package datosUsuario;
 
 import enums.dificultad;
-import juegoBuscaminas.TablaBuscaminas;
 
 public class Usuario {
 	private String nombre;//Nombre del usuario
 	private int puntaje;//Puntaje
 	private dificultad dificultadU; //Dificultad de la persona
-	private boolean condicionJuego;
-	private TablaBuscaminas tabla;
-	private int niveles;
+	private boolean condicionJuego; //Si sigue en juego o no
+	private int niveles; //Nivel
+	private int vidas; //Vidas
+	private boolean hacerTrampa;
 	
-	public Usuario(String nombre) {
+	public Usuario(String nombre, dificultad dificultadU) {
 		this.nombre = nombre;
 		this.puntaje = 0;
-		this.dificultadU = null;
+		this.dificultadU = dificultadU;
 		this.condicionJuego = true;
-		this.niveles = 0;
+		this.niveles = 0; //Nivel 0.
+		this.vidas = 3; //3 Vidas
+		this.hacerTrampa = false;
 	}
+	
+	public Usuario(String nombre, int puntaje) {
+		this.nombre = nombre;
+		this.puntaje =puntaje;
+		this.dificultadU = dificultad.facil;//Dificultad estándar
+	}
+	
+	
+	
+	public boolean getHacerTrampa() {
+		return hacerTrampa;
+	}
+
+	public int getvida() {
+		return this.vidas;
+	}
+	
+	public void restarVida() {
+		this.vidas --;
+	}
+	
 	
 	public int getNivel() {
 		return this.niveles;
 	}
 	
-	public void setNivel(int nivel) {
-		this.niveles = nivel;
+	public void sumarNivel(int nivel) {
+		this.niveles += nivel;
 	}
-	
-	public void sumarNivel() {
-		this.niveles += 1;
-	}
-	
-	public TablaBuscaminas getTabla() {
-		return this.tabla;
-	}
-	
-	public void setTablaBuscaminas(TablaBuscaminas tabla) {
-		this.tabla = tabla;
-	}
-	
+
 	public boolean getCondicionJuego() {
 		return this.condicionJuego;
 	}
@@ -48,7 +59,7 @@ public class Usuario {
 	}
 	
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
@@ -56,7 +67,7 @@ public class Usuario {
 	}
 
 	public int getPuntaje() {
-		return puntaje;
+		return this.puntaje;
 	}
 
 	public void setPuntaje(int puntaje) {
@@ -76,7 +87,13 @@ public class Usuario {
 	}
 	
 	public String toString() {
-		return this.nombre+" --> nivel "+this.niveles;
+		if(this.condicionJuego) {//Cuando esta vivo
+			return "Turno del jugador "+this.nombre+" --> vidas: "+this.vidas+
+					"\nNivel: "+this.niveles +" - dificultad: "+this.dificultadU+"\n";
+		}else {//Cuando no esta vivo
+			return this.nombre + " - puntaje--> "+this.puntaje;
+		}
+		
 	}
 	
 	

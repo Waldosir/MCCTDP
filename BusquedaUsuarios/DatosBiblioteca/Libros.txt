@@ -1,0 +1,2 @@
+2|Misery|Autor que escribe un libro con su fan numero 1|200|0|1
+1|La Fundacion|Cuentos cortos escritos por Asimov|300|5|0
