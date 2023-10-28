@@ -1,2 +1,5 @@
-Prueba|300
-MarthaF|300
+Prueba01|150
+Prueba04|400
+Prueba03|200
+Prueba02|100
+Prueba06|300
