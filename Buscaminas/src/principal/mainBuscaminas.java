@@ -93,7 +93,7 @@ public class mainBuscaminas {
 			System.out.println("Escoja una opcino valida\n");
 		}
 		
-		System.gc(); //Inicia recolector de basura
+		//System.gc(); //Inicia recolector de basura
 		}while(true);
 		
 		sc.close();

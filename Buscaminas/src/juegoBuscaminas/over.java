@@ -1,5 +1,5 @@
 package juegoBuscaminas;
 
-public @interface override {
+public @interface over {
 
 }

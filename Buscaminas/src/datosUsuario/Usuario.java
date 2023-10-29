@@ -18,7 +18,7 @@ public class Usuario {
 		this.condicionJuego = true;
 		this.niveles = 0; //Nivel 0.
 		this.vidas = 3; //3 Vidas
-		this.hacerTrampa = false;
+		this.hacerTrampa = true;
 	}
 	
 	public Usuario(String nombre, int puntaje) {

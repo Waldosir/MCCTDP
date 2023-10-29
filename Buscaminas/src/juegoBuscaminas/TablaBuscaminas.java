@@ -36,7 +36,7 @@ public class TablaBuscaminas extends GestionUsuarios {
 		sacarTop10();
 	}
 	
-	
+
 	private void sacarTop10() {//Saca al top 10 de jugadores
 		GestionUsuarios gU = new GestionUsuarios();
 		Usuario[] lista = gU.recuperarUsuarios();
@@ -487,7 +487,7 @@ public class TablaBuscaminas extends GestionUsuarios {
 		this.ganadores.add(this.usuario);
 		//Ordena los usuarios mediante puntajes
 		Collections.sort(this.ganadores,new Comparator<Usuario>() {
-			@override
+			@over
 			public int compare(Usuario o1, Usuario o2) {
 				return Integer.valueOf(o2.getPuntaje()).compareTo(o1.getPuntaje());
 			}
@@ -501,7 +501,7 @@ public class TablaBuscaminas extends GestionUsuarios {
 	
 	public String tablaPuntajes() {
 		Collections.sort(this.ganadores,new Comparator<Usuario>() {
-			@override
+			@over
 			public int compare(Usuario o1, Usuario o2) {
 				return Integer.valueOf(o2.getPuntaje()).compareTo(o1.getPuntaje());
 			}
