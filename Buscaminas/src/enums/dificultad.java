@@ -2,7 +2,10 @@ package enums;
 
 public enum dificultad {
 	//base, altura, dificultad
-	principiante(8,8,"principiante",50,8,8+10),facil(15,15,"facil",450,20,20+10),normal(30,30,"normal",1350,45,45+10),dificil(50,50,"dificil",3350,100,100+10);
+	principiante(8,8,"principiante",50,8,8+10),
+	facil(15,15,"facil",450,20,20+10),
+	normal(30,30,"normal",1350,45,45+10),
+	dificil(50,50,"dificil",3350,100,100+10);
 	
 	/*Por nivel = 100
 	 * Principiante: 50 puntos+ PorNivel = 150 final (8 minutos)

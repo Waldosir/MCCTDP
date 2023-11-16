@@ -17,7 +17,7 @@ public class Usuario {
 		this.dificultadU = dificultadU;
 		this.condicionJuego = true;
 		this.niveles = 0; //Nivel 0.
-		this.vidas = 3; //3 Vidas
+		this.vidas = 1; //3 Vidas
 		this.hacerTrampa = true;
 	}
 	
