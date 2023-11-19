@@ -1,0 +1,38 @@
+Programa miPrimerCodigo{
+entero base = 12
+entero altura = 24
+real area
+texto nombre = "Aldair"
+
+inicio{
+entero base   
+entero altura   
+real area   		
+leer base   
+leer altura   
+area = base * altura / 2
+imprime ~El valor de base es: ~
+imprime base
+imprime ~salto~
+imprime ~El valor de altura es: ~    
+imprime altura   
+imprime ~salto~   	
+imprime ~El valor de area es: ~    
+imprime area 
+imprime ~salto~    
+}
+
+final{
+si (x>2){
+entero final
+entero beast
+}
+}
+
+last{
+mientras(condicion){
+entero dos
+entero mas
+}
+}
+}

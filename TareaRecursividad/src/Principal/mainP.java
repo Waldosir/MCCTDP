@@ -3,7 +3,7 @@ package Principal;
 import java.util.ArrayList;
 
 public class mainP {
-
+	static int contar = 0;
 	public static void main(String[] args) {
 		/*
 		•
@@ -50,6 +50,9 @@ public class mainP {
 		//Función de Ackerman
 		System.out.println(ackerman(2,1));	
 		
+		
+		Hanoi h = new Hanoi(3, 1, 3, 2);
+		System.out.println("Total de entradas a mover: "+h.getContar());
 		//Números de Catalán
 		
 		
@@ -81,17 +84,7 @@ public class mainP {
 		
 		
 	}
-	
-	public static void mover (int disco, int a, int b, int c){
-		contar++;
-		if (disco == 1)
-		System.out.println("Mueve el disco "+disco +" del poste: "+a + " al poste: "+b);
-		else{
-		mover(disco-1, a,c,b);
-		System.out.println("Mueve el disco "+disco +" del poste: "+a + " al poste: "+b);
-		mover(disco-1, c,b,a);
-		}
-		}
+
 	
 	  public static int ackerman(int m, int n){
 	        int acker = 0;

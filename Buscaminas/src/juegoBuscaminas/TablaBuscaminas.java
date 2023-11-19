@@ -9,7 +9,7 @@ import datosUsuario.GestionUsuarios;
 import datosUsuario.Usuario;
 import enums.dificultad;
 
-public class TablaBuscaminas extends GestionUsuarios {
+public class TablaBuscaminas {
 	//Valor de fila, columna y datos de tabla
 	private int fila,columna; //valores de fila y columna
 	private Casillas[][] tablaBuscaminas;//Tabla con casillas
@@ -186,11 +186,13 @@ public class TablaBuscaminas extends GestionUsuarios {
 			sigueJugando =  false;//Retorna falso para que acabe el juego
 		
 			
-		}else if(this.tablaBuscaminas[x][y].getBloquear()) {//Si esta bloqueado
+				}
+			else if(this.tablaBuscaminas[x][y].getBloquear()) {//Si esta bloqueado
 			System.out.println("Casilla bloqueada. No se puede seleccionar");
 			sigueJugando =  true;//Sigue en el juego
 			
-		}else{
+		}
+			else{
 			destaparCasillas(x, y);//Destapa casilla
 			if(ganar()){//Condicion ganar
 				System.out.println("Ganaste");
@@ -469,6 +471,7 @@ public class TablaBuscaminas extends GestionUsuarios {
 	}
 	
 	private void colocarEnTablaPuntaje() {
+		GestionUsuarios gu = new GestionUsuarios();
 		boolean condicionBorrar = false;
 		Usuario borrar = null;
 		for(Usuario lista: this.ganadores) {
@@ -494,7 +497,7 @@ public class TablaBuscaminas extends GestionUsuarios {
 		}
 				);
 		
-		this.actualizarLista(ganadores);
+		gu.actualizarLista(ganadores);
 		System.out.println(tablaPuntajes());
 	}
 	

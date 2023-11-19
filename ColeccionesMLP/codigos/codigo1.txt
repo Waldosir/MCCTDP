@@ -1,0 +1,15 @@
+entero base   
+entero altura   
+real area   		
+leer base   
+leer altura   
+area = base * altura / 2
+imprime ~El valor de base es: ~
+imprime base
+imprime ~salto~
+imprime ~El valor de altura es: ~    
+imprime altura   
+imprime ~salto~   	
+imprime ~El valor de area es: ~    
+imprime area 
+imprime ~salto~    
